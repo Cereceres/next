@@ -1,5 +1,5 @@
 
-# next
+# next-loop
 [![Inline docs](http://inch-ci.org/github/Cereceres/co-Eventemitter.svg?branch=master)](http://inch-ci.org/github/Cereceres/co-Eventemitter)
 [![Circle CI](https://circleci.com/gh/Cereceres/co-Eventemitter.svg?style=svg)](https://circleci.com/gh/Cereceres/co-Eventemitter)
 
@@ -9,16 +9,16 @@ next for JavaScript
 # Installing
 
 ```bash
-$ npm install next
+$ npm install next-loop
 ```
 
 # Getting starter
 
 ```js
 
-let Next = require( 'next' )
+let Next = require( 'next-loop' )
 let next = new Next() // you can pass a object to next constructor
-// that will be used or passed as thisArg to every generator.
+// that will be used or passed as thisArg to every function.
 ```
 # Usage
 
@@ -26,47 +26,46 @@ Create
 
 ```js
 let count = 0
-//the generator are called with a arg and next, what is the next generator
+//the function are called with a arg and next, what is the next function
 let fun1 = function* ( arg, next ) {
-  // every generator is evaluated with the arguments
+  // every function is evaluated with the arguments
   // passed when the event was emitted and the last
-  // param is the next generator in the array listener
+  // param is the next function in the array listener
   // or handler event.
   count++
-  // every generator is wrapper with co
-  let res = yield Promise.resolve( 4 )
-  assert.equal( res, 4 )
-  //this statement pass the control flow to next generator in the array
-  yield next
-  assert.equal( arg, {a:3})
+  let res = next( 3 * arg )
+  return res
 }
 
 let fun2 = function* ( arg ) {
-  // the last generator in the array not receive the
-  // next generator.
+  // the last function in the array receive the
+  // next function that exec again  the first function in the array
   count++
-  let res = yield Promise.resolve( '54' )
-  assert.equal( res, '54' )
-  assert.equal.deep( arg, {a:3} )
+  let res
+  count++
+  if ( arg < 100 ) {
+    res = next( 2 * arg )
+  } else {
+    res = arg
+  }
+  return res
 }
-next.on( 'test', fun1, fun2 ) // returns itself, you can pass as many generators as you need queue
-next.emit( 'test',{a:3}) // return a promise that is resolved when every generator is finish
-// every error is catched and the promise is rejected with that error. Also error event is amitted when this
-// error is catched
-// every generator is called with arg={a:3}
-
-assert.equal( count,2 )
-// count is equal to generator number
+next.on( 'test', fun1, fun2 ) // returns itself, you can pass as many functions as you need queue
+next.emit( 'test',4).then(function (res) {
+  assert.equal( res, 432 )
+}) // return a promise that is resolved when every function is finish
+assert.equal( count,6 )
+// count is equal to function number
 // the emitter property is a EventEmitter instance self,
 // where every method and property affect to Next instance too.
-// Also can use once method exposed to Next to use generators wrapper
+// Also can use once method exposed to Next to use functions wrapper
 // with co.
 ```
-### `Class Next`
+### `Class Next-loop`
 #### `Next([thisArg])`
-To instance the next you can pass a thisArg object what will be passed to every generator as thisArg.
+To instance the next you can pass a thisArg object what will be passed to every function as thisArg.
 
-### `Instance Co-eventemitter`
+### `Instance Next-loop`
 #### `next.on(String,Function[,Function...])`
 This method added the Functions passed to event Handler of event given(String). Returns itself.
 
@@ -74,16 +73,16 @@ This method added the Functions passed to event Handler of event given(String). 
 This method added the Functions passed to event Handler of event given(String) to be emitted only one time. Returns itself.
 
 #### `next.emit(String,Object[,Object...])`
-This method emit the event event given(String) and pass every Object argument to every constructor. Returns a promise that is resolved when the every generator of event is finished or rejected if a error happen. If a error is through the error event is emitted or if a listener is not found the event "NotListener" also is through and the promise is resolved with the arguments passed when the event was emitted.
+This method emit the event event given(String) and pass every Object argument to every constructor. Returns a promise that is resolved when the every function of event is finished or rejected if a error happen. If a error is through the error event is emitted or if a listener is not found the event "NotListener" also is through and the promise is resolved with the arguments passed when the event was emitted.
 
 #### `next.emitter`
 Instance of EventEmitter, every change here affect to next instance.
 
 #### `next.events`
-Object where the keys are the events added and values are arrays with the listers generators to every event.
+Object where the keys are the events added and values are arrays with the listers functions to every event.
 
 #### `next.ctx`
-thisArg passed to every generator, this is the same passed to constructor and can be
+thisArg passed to every function, this is the same passed to constructor and can be
 upgraded at any time.
 
 # Testing

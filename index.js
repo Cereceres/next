@@ -73,9 +73,7 @@ let Next = function ( ctx ) {
             eventHandler
           ]
         this.events[ event ] = this.events[ event ] || {}
-        this.events[ event ].eventHandlerGen = this.events[ event ].eventHandlerGen ||
-          eventHandler
-
+        this.events[ event ].eventHandlerGen = eventHandler
         this.emitter.removeAllListeners( event )
         this.emitter.once( event, function ( arg, res, rej ) {
           let chained = chaining.apply( _this.ctx, _this.events[ event ]
