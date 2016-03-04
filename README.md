@@ -1,7 +1,11 @@
 
 # next-loop
-[![Inline docs](http://inch-ci.org/github/Cereceres/co-Eventemitter.svg?branch=master)](http://inch-ci.org/github/Cereceres/co-Eventemitter)
-[![Circle CI](https://circleci.com/gh/Cereceres/co-Eventemitter.svg?style=svg)](https://circleci.com/gh/Cereceres/co-Eventemitter)
+
+[![Inline docs](http://inch-ci.org/github/Cereceres/next.svg?branch=master)](http://inch-ci.org/github/Cereceres/next)
+[![Circle CI](https://circleci.com/gh/Cereceres/next.svg?style=svg)](https://circleci.com/gh/Cereceres/next)
+
+[![Build Status](https://travis-ci.org/Cereceres/next.svg?branch=master)](https://travis-ci.org/Cereceres/next)
+
 
 
 next for JavaScript
