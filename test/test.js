@@ -3,30 +3,32 @@ let assert = require( 'assert' )
 let CoEvent = require( '../index' )
 let count = 0
 
-describe( 'Test for Coevent', function ( ) {
-  this.timeout( 10000 )
+describe( 'Test for next', function ( ) {
   before( function ( ) {
     this.Myemmiter = new CoEvent( )
-    this.gen1 = function* ( arg, next ) {
+    this.fun1 = function ( arg, next ) {
       count++
-      let res = yield Promise.resolve( 4 )
-      assert.equal( res, 4 )
-      yield next
-      assert.equal( arg, 'hola' )
+      let res = next( 3 * arg )
+      return res
     }
 
-    this.gen2 = function* ( arg ) {
+    this.fun2 = function ( arg, next ) {
+      let res
       count++
-      let res = yield Promise.resolve( '54' )
-      assert.equal( res, '54' )
-      assert.equal( arg, 'hola' )
+      if ( arg < 100 ) {
+        res = next( 2 * arg )
+      } else {
+        res = arg
+      }
+      return res
     }
-    this.Myemmiter.on( 'test', this.gen1, this.gen2 )
+    this.Myemmiter.on( 'test', this.fun1, this.fun2 )
   } )
-  it( 'should send a post', function ( done ) {
-    this.Myemmiter.emit( 'test', 'hola' )
-      .then( function ( ) {
-        assert.equal( count, 2 )
+  it( 'should count the calls and result', function ( done ) {
+    this.Myemmiter.emit( 'test', 4 )
+      .then( function ( res ) {
+        assert.equal( count, 6 )
+        assert.equal( res, 432 )
         done( )
       } )
       .catch( done )

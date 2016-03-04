@@ -13,7 +13,24 @@ let chaining = function ( array, index ) {
         arg = arguments.length > 1 ? slice.call( arguments ) : [
           arg
         ]
-        return array[ index ].apply( this, arg )
+        return array[ 0 ].apply( this, arg.concat( _next[ 0 ] ) )
+      } )
+      .bind( this )
+    return _next[ 0 ]
+  } else if ( array.length === 2 ) {
+    _next[ 1 ] = ( function ( arg ) {
+        arg = arguments.length > 1 ? slice.call( arguments ) : [
+          arg
+        ]
+        return array[ 1 ].apply( this, arg.concat( _next[ 0 ] ) )
+      } )
+      .bind( this )
+
+    _next[ 0 ] = ( function ( arg ) {
+        arg = arguments.length > 1 ? slice.call( arguments ) : [
+          arg
+        ]
+        return array[ 0 ].apply( this, arg.concat( _next[ 1 ] ) )
       } )
       .bind( this )
     return _next[ 0 ]
