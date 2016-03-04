@@ -1,0 +1,29 @@
+{
+  "name": "next-loop",
+  "version": "0.0.2",
+  "description": "next chaining flow",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^2.4.5"
+  },
+  "scripts": {
+    "test": "mocha test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cereceres/next.git"
+  },
+  "keywords": [
+    "eventemitter"
+  ],
+  "author": "Jesus Cereceres",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Cereceres/next/issues"
+  },
+  "homepage": "https://github.com/Cereceres/next#readme"
+}
