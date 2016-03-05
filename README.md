@@ -41,7 +41,7 @@ let fun1 = function* ( arg, next ) {
   return res
 }
 
-let fun2 = function* ( arg ) {
+let fun2 = function* ( arg ,next) {
   // the last function in the array receive the
   // next function that exec again  the first function in the array
   count++
